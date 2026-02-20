@@ -1,0 +1,10 @@
+src/app/api/admin/overview/route.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/admin/overview/route.ts(58,30): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/app/api/admin/withdrawals/[id]/route.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/admin/withdrawals/route.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/admin/withdrawals/route.ts(45,39): error TS7006: Parameter 'w' implicitly has an 'any' type.
+src/app/api/auth/register/route.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/dashboard/route.ts(2,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/app/api/dashboard/route.ts(48,50): error TS7006: Parameter 'w' implicitly has an 'any' type.
+src/lib/auth.ts(4,10): error TS2305: Module '"@prisma/client"' has no exported member 'PrismaClient'.
+src/lib/auth.ts(43,30): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.

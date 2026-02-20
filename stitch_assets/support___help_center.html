@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARS Surveys - Support &amp; Help Center</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4cae4f",
+                        "primary-dark": "#3d8b3f",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#151d15",
+                        "card-dark": "#1e2820",
+                        "border-dark": "#2d3e2e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark mode */
+        .dark ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #151d15; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2d3e2e; 
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #4cae4f; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display selection:bg-primary selection:text-white">
+<!-- Navbar Component -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#2d3e2e] bg-white/80 dark:bg-[#151e16]/80 backdrop-blur-md px-6 lg:px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-[32px]">analytics</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">ARS Surveys</h2>
+</div>
+<nav class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Surveys</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Analytics</a>
+<a class="text-slate-900 dark:text-white text-sm font-bold leading-normal border-b-2 border-primary" href="#">Support</a>
+</div>
+<div class="flex gap-2 border-l border-slate-200 dark:border-[#2d3e2e] pl-6">
+<button class="flex items-center justify-center rounded-lg h-9 w-9 hover:bg-slate-100 dark:hover:bg-[#2d3e2e] text-slate-600 dark:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-9 w-9 hover:bg-slate-100 dark:hover:bg-[#2d3e2e] text-slate-600 dark:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden flex items-center text-slate-600 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Header Section -->
+<div class="mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Support &amp; Help Center</h1>
+<p class="text-slate-500 dark:text-[#a0baa1] text-lg max-w-2xl">
+                    Need assistance? Submit a ticket below or track the status of your existing requests. Our team is here to help 24/7.
+                </p>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Submit Ticket Form (Glassmorphism) -->
+<div class="lg:col-span-7 xl:col-span-8">
+<div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-[#2d3e2e] bg-white dark:bg-[#1e2820]/60 backdrop-blur-xl shadow-lg">
+<!-- Subtle Glow Effect in Background -->
+<div class="absolute -top-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined">edit_square</span>
+</span>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">New Support Ticket</h2>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
+<input class="w-full h-12 px-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" placeholder="Brief summary of the issue" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Category</label>
+<div class="relative">
+<select class="w-full h-12 px-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary appearance-none transition-all cursor-pointer">
+<option>Technical Issue</option>
+<option>Billing &amp; Payments</option>
+<option>Account Management</option>
+<option>Feature Request</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Description</label>
+<textarea class="w-full min-h-[160px] p-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none transition-all" placeholder="Please describe the issue in detail..."></textarea>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Attachments</label>
+<div class="flex items-center justify-center w-full">
+<label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-slate-50 dark:bg-[#151e16] border-slate-300 dark:border-[#2d3e2e] hover:bg-slate-100 dark:hover:bg-[#2d3e2e]/50 transition-colors group">
+<div class="flex flex-col items-center justify-center pt-5 pb-6">
+<span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary mb-2 transition-colors">cloud_upload</span>
+<p class="mb-1 text-sm text-slate-500 dark:text-slate-400"><span class="font-semibold text-primary">Click to upload</span> or drag and drop</p>
+<p class="text-xs text-slate-500 dark:text-slate-500">SVG, PNG, JPG or PDF (MAX. 800x400px)</p>
+</div>
+<input class="hidden" type="file"/>
+</label>
+</div>
+</div>
+<div class="pt-2 flex justify-end">
+<button class="inline-flex items-center justify-center h-12 px-8 font-semibold text-white transition-all duration-200 rounded-lg bg-primary hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-[#151e16]" type="button">
+                                    Submit Ticket
+                                    <span class="material-symbols-outlined ml-2 text-[20px]">send</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Right Column: Ticket History & Quick Links -->
+<div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
+<!-- Ticket History Card -->
+<div class="bg-white dark:bg-[#1e2820] rounded-xl border border-slate-200 dark:border-[#2d3e2e] shadow-sm flex-1 flex flex-col">
+<div class="p-5 border-b border-slate-100 dark:border-[#2d3e2e] flex items-center justify-between">
+<h3 class="font-bold text-slate-900 dark:text-white">Recent Tickets</h3>
+<a class="text-xs font-medium text-primary hover:text-primary-dark transition-colors" href="#">View All</a>
+</div>
+<div class="p-2 flex-1 overflow-y-auto max-h-[500px]">
+<!-- Ticket Item 1 -->
+<div class="group flex flex-col gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-[#263328] transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-[#2d3e2e]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="mt-1">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+</span>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">API Rate Limit Exceeded</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ticket #2942 • Technical Issue</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800">
+                                    Pending
+                                </span>
+</div>
+<div class="pl-11 text-xs text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Created 2 hours ago</span>
+</div>
+</div>
+<!-- Ticket Item 2 -->
+<div class="group flex flex-col gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-[#263328] transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-[#2d3e2e]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="mt-1">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[18px]">engineering</span>
+</span>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">Survey Logic Branching Error</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ticket #2938 • Bug Report</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                                    In Progress
+                                </span>
+</div>
+<div class="pl-11 text-xs text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Updated yesterday</span>
+</div>
+</div>
+<!-- Ticket Item 3 -->
+<div class="group flex flex-col gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-[#263328] transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-[#2d3e2e]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="mt-1">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</span>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">Billing Invoice Request - Oct</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ticket #2910 • Billing</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                    Resolved
+                                </span>
+</div>
+<div class="pl-11 text-xs text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Closed 3 days ago</span>
+</div>
+</div>
+<!-- Ticket Item 4 -->
+<div class="group flex flex-col gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-[#263328] transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-[#2d3e2e]">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="mt-1">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</span>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">User Permission Updates</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ticket #2895 • Account</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                    Resolved
+                                </span>
+</div>
+<div class="pl-11 text-xs text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Closed last week</span>
+</div>
+</div>
+</div>
+</div>
+<!-- FAQ Quick Links -->
+<div class="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-[#1e2820] dark:to-[#151e16] rounded-xl border border-slate-200 dark:border-[#2d3e2e] shadow-sm p-6 relative overflow-hidden">
+<!-- Decorative Pattern -->
+<div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[180px] text-white">help_center</span>
+</div>
+<h3 class="font-bold text-white text-lg mb-4 relative z-10">Common Questions</h3>
+<ul class="space-y-3 relative z-10">
+<li>
+<a class="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">article</span>
+                               How to export survey data to CSV?
+                           </a>
+</li>
+<li>
+<a class="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">article</span>
+                               Setting up custom domain mapping
+                           </a>
+</li>
+<li>
+<a class="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">article</span>
+                               Understanding billing cycles
+                           </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto border-t border-slate-200 dark:border-[#2d3e2e] py-8 bg-white dark:bg-[#151e16]">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2023 ARS Surveys. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-sm text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Status</a>
+</div>
+</div>
+</footer>
+</body></html>

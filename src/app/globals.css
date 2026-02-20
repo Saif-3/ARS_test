@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+
+:root {
+  --background: #0F1C0F;
+  --background-dark: #0f1510;
+  --background-light: #f6f7f6;
+  --foreground: #ffffff;
+  --primary: #4cae4f;
+  --primary-dark: #2e7d32;
+  --primary-foreground: #ffffff;
+  --secondary: #a0baa1;
+  --forest: #1A321A;
+  --forest-light: #2d3e2e;
+  --lime-accent: #9DD666;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-surface: rgba(255, 255, 255, 0.03);
+  --muted: #151e16;
+  --muted-foreground: #999999;
+  --border: rgba(255, 255, 255, 0.08);
+  --card: rgba(21, 30, 22, 0.4);
+  --card-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-dark: var(--background-dark);
+  --color-background-light: var(--background-light);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-forest: var(--forest);
+  --color-forest-light: var(--forest-light);
+  --color-lime-accent: var(--lime-accent);
+  --color-glass-border: var(--glass-border);
+  --color-glass-surface: var(--glass-surface);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --font-sans: "Inter", var(--font-geist-sans), sans-serif;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply antialiased overflow-x-hidden relative min-h-screen flex flex-col pt-16;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(30, 45, 30, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(76, 174, 79, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-nav {
+    background: rgba(15, 28, 15, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .sidebar-gradient {
+    background: linear-gradient(180deg, #1A321A 0%, #0f1510 100%);
+  }
+
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #ffffff, #9DD666);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.4;
+  }
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--forest-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

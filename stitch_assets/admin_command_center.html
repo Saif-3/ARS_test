@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Command Center - ARS Surveys</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4cae4f",
+              "primary-dark": "#2e7d32",
+              "background-light": "#f6f7f6",
+              "background-dark": "#151e16", // Deep forest green background
+              "surface-dark": "#1e2a20", // Slightly lighter for cards
+              "surface-highlight": "#2d3e2e", // Even lighter for hovers
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "body": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151e16; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3e2e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4cae4f; 
+        }
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-[#2d3e2e] bg-[#151e16] flex flex-col justify-between p-4">
+<div class="flex flex-col gap-8">
+<!-- Branding -->
+<div class="flex items-center gap-3 px-2">
+<div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark shadow-lg shadow-primary/20 text-white">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold tracking-tight">ARS Surveys</h1>
+<p class="text-[#a0baa1] text-xs font-medium">Admin Portal</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#a0baa1] group-hover:text-white">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined icon-fill">group</span>
+<span class="text-sm font-semibold">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#a0baa1] group-hover:text-white">payments</span>
+<span class="text-sm font-medium">Financials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#a0baa1] group-hover:text-white">assignment</span>
+<span class="text-sm font-medium">Survey Config</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#a0baa1] group-hover:text-white">history</span>
+<span class="text-sm font-medium">Audit Logs</span>
+</a>
+</nav>
+</div>
+<!-- User Profile -->
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg bg-[#1e2a20] border border-[#2d3e2e]">
+<div class="relative">
+<img alt="Admin Profile" class="w-9 h-9 rounded-full object-cover border border-[#2d3e2e]" data-alt="Admin user profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAknPzhriOq4-GMwHYYqf3iBYgj0GwLzqjGMZGJ2QZTT2t5L9HR-tZiprVt2rpVxx_LTJxwnEmiVssQYVkRU2SrLpwz_HlQLg2jkpH5MKx9767uuJHQLAFJ8kFvVt413jyE5ZKf-f9Zatb_rCVuBqvTkLkJ4l5y2YMD991MwsIPRxvR8zpz2qyQ6EXDa_U3YxtIh2dECzGHlcWlWdAjitQJhivXR624YrrfC72pSzrBOQa183F21P8d2gRN4mtYMKSZyv6VHt8Dc__f"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-primary border-2 border-[#1e2a20] rounded-full"></div>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-white text-sm font-medium truncate">Alexander R.</span>
+<span class="text-[#a0baa1] text-xs truncate">Super Admin</span>
+</div>
+<button class="ml-auto text-[#a0baa1] hover:text-white">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-[#2d3e2e] bg-[#151e16] flex-shrink-0 z-10">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-bold text-white tracking-tight">User Command Center</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#2d3e2e] text-[#a0baa1] uppercase tracking-wider border border-[#a0baa1]/20">v2.4.0</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#a0baa1] text-[20px]">search</span>
+<input class="bg-[#1e2a20] border border-[#2d3e2e] text-white text-sm rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-[#5e7a60]" placeholder="Search system..." type="text"/>
+</div>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#1e2a20] border border-[#2d3e2e] text-[#a0baa1] hover:text-white hover:border-primary/50 transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#1e2a20] border border-[#2d3e2e] text-[#a0baa1] hover:text-white hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-[#151e16] to-[#0f1510]">
+<div class="max-w-[1400px] mx-auto flex flex-col gap-8">
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Total Users Card -->
+<div class="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">groups</span>
+</div>
+<div class="flex flex-col gap-1 relative z-10">
+<p class="text-[#a0baa1] text-sm font-medium flex items-center gap-2">
+                                    Total Users
+                                    <span class="material-symbols-outlined text-[16px]">info</span>
+</p>
+<div class="flex items-end gap-3 mt-1">
+<h3 class="text-3xl font-bold text-white tracking-tight">12,405</h3>
+<span class="flex items-center text-xs font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded mb-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                                        +5.2%
+                                    </span>
+</div>
+<p class="text-[#5e7a60] text-xs mt-2">Vs. previous 30 days</p>
+</div>
+</div>
+<!-- Active vs Banned Card -->
+<div class="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl p-5 flex items-center justify-between relative overflow-hidden hover:border-primary/30 transition-all">
+<div class="flex flex-col gap-1 relative z-10">
+<p class="text-[#a0baa1] text-sm font-medium">User Status</p>
+<div class="flex flex-col mt-2 gap-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-white text-sm font-semibold">Active</span>
+<span class="text-[#a0baa1] text-xs ml-auto">92%</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-red-500/80"></div>
+<span class="text-white text-sm font-semibold">Banned</span>
+<span class="text-[#a0baa1] text-xs ml-auto">8%</span>
+</div>
+</div>
+<div class="h-1.5 w-full bg-[#2d3e2e] rounded-full mt-3 flex overflow-hidden">
+<div class="h-full bg-primary w-[92%]"></div>
+<div class="h-full bg-red-500/80 w-[8%]"></div>
+</div>
+</div>
+<!-- Mini Donut Chart Representation using conic gradient -->
+<div class="w-16 h-16 rounded-full relative ml-4" style="background: conic-gradient(#4cae4f 0% 92%, #ef4444 92% 100%);">
+<div class="absolute inset-2 bg-[#1e2a20] rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]">pie_chart</span>
+</div>
+</div>
+</div>
+<!-- Financials Card -->
+<div class="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex flex-col gap-1 relative z-10">
+<p class="text-[#a0baa1] text-sm font-medium">Total USD Processed</p>
+<div class="flex items-end gap-3 mt-1">
+<h3 class="text-3xl font-bold text-white tracking-tight">$4.2M</h3>
+<span class="flex items-center text-xs font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded mb-1">
+                                        YTD
+                                    </span>
+</div>
+<!-- Abstract Sparkline using CSS clip-path -->
+<div class="mt-4 h-8 w-full bg-gradient-to-t from-primary/20 to-transparent relative">
+<svg class="absolute bottom-0 left-0 right-0 w-full h-full overflow-visible" preserveaspectratio="none">
+<path d="M0 32 L20 25 L40 28 L60 15 L80 20 L100 5 L120 12 L140 2 L160 8 L180 0 L200 10 L300 0" fill="none" stroke="#4cae4f" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Table Section -->
+<div class="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl flex flex-col shadow-xl shadow-black/20">
+<!-- Table Header Controls -->
+<div class="p-5 border-b border-[#2d3e2e] flex flex-wrap items-center justify-between gap-4">
+<div>
+<h3 class="text-white text-lg font-bold">User Directory</h3>
+<p class="text-[#a0baa1] text-xs">Manage access and account statuses</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-[#151e16] border border-[#2d3e2e] rounded-lg px-3 py-1.5">
+<span class="material-symbols-outlined text-[#a0baa1] text-[18px] mr-2">filter_list</span>
+<select class="bg-transparent text-sm text-white focus:outline-none cursor-pointer">
+<option>All Statuses</option>
+<option>Active</option>
+<option>Banned</option>
+<option>Pending</option>
+</select>
+</div>
+<div class="flex items-center bg-[#151e16] border border-[#2d3e2e] rounded-lg px-3 py-1.5">
+<span class="material-symbols-outlined text-[#a0baa1] text-[18px] mr-2">sort</span>
+<select class="bg-transparent text-sm text-white focus:outline-none cursor-pointer">
+<option>Newest First</option>
+<option>Oldest First</option>
+<option>Highest Balance</option>
+</select>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                    Invite User
+                                </button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#263528] text-[#a0baa1] text-xs uppercase tracking-wider font-semibold border-b border-[#2d3e2e]">
+<th class="px-6 py-4 w-12">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</th>
+<th class="px-6 py-4">User Details</th>
+<th class="px-6 py-4">Role</th>
+<th class="px-6 py-4">Joined Date</th>
+<th class="px-6 py-4 text-right">Balance</th>
+<th class="px-6 py-4 text-center">Status</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#2d3e2e] text-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-[#263528]/50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-[#2d3e2e] flex items-center justify-center text-white font-bold text-xs border border-[#3e5640]">
+                                                    JD
+                                                </div>
+<div class="flex flex-col">
+<span class="text-white font-medium">John Doe</span>
+<span class="text-[#a0baa1] text-xs">john.doe@fintech.com</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#2d3e2e] text-[#a0baa1] border border-[#3e5640]">
+                                                Analyst
+                                            </span>
+</td>
+<td class="px-6 py-4 text-[#a0baa1]">Oct 24, 2023</td>
+<td class="px-6 py-4 text-right font-mono text-white">$2,450.00</td>
+<td class="px-6 py-4 text-center">
+<button aria-checked="true" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1e2a20] bg-primary group-hover:bg-primary-dark" role="switch">
+<span class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] rounded transition-colors" title="Update Profile">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-2 py-1 bg-[#2d3e2e] hover:bg-[#3e5640] text-xs font-medium text-white rounded transition-colors border border-[#3e5640]">
+                                                    Assign
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#263528]/50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-9 h-9 rounded-full object-cover border border-[#2d3e2e]" data-alt="Sarah Smith profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWnmiU8fL3_iFUEpL___nfrSh6pMuRKwqEcPFrv-VkEe8ktU61uPLTJ5fNRCYxgP_vP6kjiPIgB6PoFkTK4m8zwg80KgwhnlkIUTmJhgl1nPaLd5GtJY2wKdLrR3YPVEXTLRMKVK_8RmvnCg78cczlMKxVU4TUm2bkRNGfwMX2eHu4uveRjOwIdPvJX_4Mncu2JejuiBei4a103k2-xphEY3mpcPXRIrylC6ploR_HW2-_MDwtyC3jNNDb2SFaFmvgQn3Gun-GabMd"/>
+<div class="flex flex-col">
+<span class="text-white font-medium">Sarah Smith</span>
+<span class="text-[#a0baa1] text-xs">sarah.s@capital.io</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                                                Admin
+                                            </span>
+</td>
+<td class="px-6 py-4 text-[#a0baa1]">Oct 22, 2023</td>
+<td class="px-6 py-4 text-right font-mono text-white">$12,890.50</td>
+<td class="px-6 py-4 text-center">
+<button aria-checked="true" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1e2a20] bg-primary group-hover:bg-primary-dark" role="switch">
+<span class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] rounded transition-colors" title="Update Profile">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-2 py-1 bg-[#2d3e2e] hover:bg-[#3e5640] text-xs font-medium text-white rounded transition-colors border border-[#3e5640]">
+                                                    Assign
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Banned) -->
+<tr class="hover:bg-[#263528]/50 transition-colors group bg-red-500/5">
+<td class="px-6 py-4">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-[#2d3e2e] flex items-center justify-center text-white font-bold text-xs border border-[#3e5640]">
+                                                    MK
+                                                </div>
+<div class="flex flex-col">
+<span class="text-white font-medium">Michael Klein</span>
+<span class="text-[#a0baa1] text-xs">m.klein@trading.net</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#2d3e2e] text-[#a0baa1] border border-[#3e5640]">
+                                                Viewer
+                                            </span>
+</td>
+<td class="px-6 py-4 text-[#a0baa1]">Oct 15, 2023</td>
+<td class="px-6 py-4 text-right font-mono text-white">$0.00</td>
+<td class="px-6 py-4 text-center">
+<button aria-checked="false" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#1e2a20] bg-zinc-600" role="switch">
+<span class="translate-x-0 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] rounded transition-colors" title="Update Profile">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-2 py-1 bg-[#2d3e2e] hover:bg-[#3e5640] text-xs font-medium text-white rounded transition-colors border border-[#3e5640]">
+                                                    Assign
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-[#263528]/50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-9 h-9 rounded-full object-cover border border-[#2d3e2e]" data-alt="Robert Fox profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpjPLylnibX0IMZSSE7xbT7B-hVH4t8zazbzZJuG8jxfLaxtSIg0ggmTyH8PC8F3TjCvtRyTYJ88HWwQfIsd8pEnT7hgdfSarrVK_DVhY54BYRmbA8GDwzMaPsKWOwm3HMI8Gob47pCH0AgsMx4DvIknMtp6jM-Lcq5sXrWGRrf6AVEnSZsoMJ_mS0bpoh8Y54iMwix6dEjjWTEGIIjvXwu-NT1DrH5Vbax78omwEA8jjb4d3XBKsILRnhfkea8vsoSbdThk0t07GL"/>
+<div class="flex flex-col">
+<span class="text-white font-medium">Robert Fox</span>
+<span class="text-[#a0baa1] text-xs">rob.fox@survey.io</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#2d3e2e] text-[#a0baa1] border border-[#3e5640]">
+                                                Researcher
+                                            </span>
+</td>
+<td class="px-6 py-4 text-[#a0baa1]">Oct 12, 2023</td>
+<td class="px-6 py-4 text-right font-mono text-white">$540.25</td>
+<td class="px-6 py-4 text-center">
+<button aria-checked="true" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1e2a20] bg-primary group-hover:bg-primary-dark" role="switch">
+<span class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] rounded transition-colors" title="Update Profile">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-2 py-1 bg-[#2d3e2e] hover:bg-[#3e5640] text-xs font-medium text-white rounded transition-colors border border-[#3e5640]">
+                                                    Assign
+                                                </button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-[#263528]/50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-[#2d3e2e] bg-[#151e16] text-primary focus:ring-offset-[#1e2a20] focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-[#2d3e2e] flex items-center justify-center text-white font-bold text-xs border border-[#3e5640]">
+                                                    EL
+                                                </div>
+<div class="flex flex-col">
+<span class="text-white font-medium">Eleanor Pena</span>
+<span class="text-[#a0baa1] text-xs">e.pena@global.net</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#2d3e2e] text-[#a0baa1] border border-[#3e5640]">
+                                                Analyst
+                                            </span>
+</td>
+<td class="px-6 py-4 text-[#a0baa1]">Oct 10, 2023</td>
+<td class="px-6 py-4 text-right font-mono text-white">$8,210.00</td>
+<td class="px-6 py-4 text-center">
+<button aria-checked="true" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1e2a20] bg-primary group-hover:bg-primary-dark" role="switch">
+<span class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e] rounded transition-colors" title="Update Profile">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-2 py-1 bg-[#2d3e2e] hover:bg-[#3e5640] text-xs font-medium text-white rounded transition-colors border border-[#3e5640]">
+                                                    Assign
+                                                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-[#2d3e2e] flex items-center justify-between">
+<span class="text-sm text-[#a0baa1]">
+                                Showing <span class="font-medium text-white">1</span> to <span class="font-medium text-white">5</span> of <span class="font-medium text-white">97</span> results
+                            </span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 rounded bg-[#151e16] border border-[#2d3e2e] text-[#a0baa1] text-sm hover:text-white disabled:opacity-50">Previous</button>
+<button class="px-3 py-1 rounded bg-[#2d3e2e] border border-[#3e5640] text-white text-sm hover:bg-[#3e5640]">1</button>
+<button class="px-3 py-1 rounded bg-[#151e16] border border-[#2d3e2e] text-[#a0baa1] text-sm hover:text-white hover:bg-[#2d3e2e]">2</button>
+<button class="px-3 py-1 rounded bg-[#151e16] border border-[#2d3e2e] text-[#a0baa1] text-sm hover:text-white hover:bg-[#2d3e2e]">3</button>
+<span class="text-[#a0baa1] text-sm">...</span>
+<button class="px-3 py-1 rounded bg-[#151e16] border border-[#2d3e2e] text-[#a0baa1] text-sm hover:text-white hover:bg-[#2d3e2e]">12</button>
+<button class="px-3 py-1 rounded bg-[#151e16] border border-[#2d3e2e] text-[#a0baa1] text-sm hover:text-white">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="max-w-[1400px] mx-auto mt-12 pb-6 flex items-center justify-between border-t border-[#2d3e2e] pt-6">
+<p class="text-[#5e7a60] text-xs">© 2023 ARS Surveys. All rights reserved.</p>
+<div class="flex items-center gap-4 text-[#5e7a60] text-xs">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Support</a>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

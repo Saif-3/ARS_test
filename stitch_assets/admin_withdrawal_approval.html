@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARS Surveys - Admin Withdrawal Approval</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4cae4f",
+                        "primary-dark": "#3d8b40", 
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#151d15",
+                        "surface-dark": "#1e291f", // A slightly lighter dark for cards
+                        "surface-darker": "#111611", // Deep background
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(30, 41, 31, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(76, 174, 79, 0.1);
+        }
+        
+        .glass-sidebar {
+            background: rgba(21, 29, 21, 0.95);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(76, 174, 79, 0.1);
+        }
+
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151d15; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3e2e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4cae4f; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="glass-sidebar w-72 flex-shrink-0 flex flex-col justify-between h-screen fixed left-0 top-0 z-50">
+<div class="flex flex-col gap-6 p-6">
+<!-- User Profile / Brand -->
+<div class="flex items-center gap-4 pb-6 border-b border-white/5">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 ring-2 ring-primary/30" data-alt="Profile picture of the admin user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8dlfqreU8RBVO04-DSJNHd5N0aitQg6NBUqxVQ5wKX9VE6nDfSezZQ4n50oiHlMsfmHna2sfFjFEzYWqVYGmQTb5bqRUBf2RWDTZVgC0aujCG8tRgCRzvOZaM3KS_bE-nYNDrkt7O1q64bZhV0PGhWiWtb766x42lPXhFNxj09kg5seD6r3Zsq-ae2I9luZcaPusOSsGe8k2hxYxhj7JdyCVdYuBh1sau82LcfGNEb0vQ8Zjrims6QxEk7-lr_JZ_GNi98f_aVxlP");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-[#151d15]"></div>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-lg font-bold leading-tight">ARS Surveys</h1>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Super Admin</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/20 text-white border border-primary/20 shadow-[0_0_15px_rgba(76,174,79,0.1)]" href="#">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+<span class="font-medium text-sm">Withdrawals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">link</span>
+<span class="font-medium text-sm">Link Validation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-6 border-t border-white/5">
+<button class="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors group">
+<span class="material-symbols-outlined group-hover:text-red-400 transition-colors">logout</span>
+<span class="font-medium text-sm">Sign Out</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-72 flex flex-col h-screen overflow-y-auto bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&amp;fit=crop&amp;q=80&amp;w=2000')] bg-cover bg-fixed relative" data-alt="Abstract dark green gradient background pattern">
+<!-- Overlay to darken background image -->
+<div class="absolute inset-0 bg-[#111611]/90 z-0 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col flex-1 p-8 max-w-[1400px] mx-auto w-full">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-white mb-2">Withdrawal Requests</h2>
+<p class="text-slate-400 text-sm">Manage payout approvals, validate survey links, and monitor transaction flow.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+                        Export CSV
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20 transition-all text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+                        Process Batch (5)
+                    </button>
+</div>
+</header>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="glass-panel p-6 rounded-xl flex flex-col relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">pending_actions</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Pending Requests</p>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">142</h3>
+<span class="text-primary text-xs font-bold bg-primary/10 px-2 py-0.5 rounded-full">+12%</span>
+</div>
+<div class="w-full bg-white/5 h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-blue-400">payments</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Total Payouts Today</p>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">$12,450</h3>
+<span class="text-primary text-xs font-bold bg-primary/10 px-2 py-0.5 rounded-full">+5%</span>
+</div>
+<div class="w-full bg-white/5 h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-blue-400 h-full w-[42%]"></div>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-red-500">warning</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Flagged Links</p>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">8</h3>
+<span class="text-red-500 text-xs font-bold bg-red-500/10 px-2 py-0.5 rounded-full">-2%</span>
+</div>
+<div class="w-full bg-white/5 h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-red-500 h-full w-[8%]"></div>
+</div>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<div class="flex flex-1 max-w-lg gap-3">
+<div class="relative flex-1 group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-dark border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search by User ID, Name, or Email" type="text"/>
+</div>
+<div class="relative min-w-[180px]">
+<select class="w-full appearance-none bg-surface-dark border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer">
+<option>Status: All</option>
+<option>Status: Pending</option>
+<option>Status: Flagged</option>
+<option>Status: Approved</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-400">
+<span>Showing 1-10 of 142 requests</span>
+<div class="flex gap-1 ml-2">
+<button class="p-1 hover:text-white transition-colors disabled:opacity-50"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-1 hover:text-white transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col shadow-2xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-white/5 text-xs uppercase tracking-wider text-slate-400 font-semibold border-b border-white/10">
+<th class="px-6 py-4">Request ID</th>
+<th class="px-6 py-4">User</th>
+<th class="px-6 py-4">Amount</th>
+<th class="px-6 py-4">Method</th>
+<th class="px-6 py-4">Link Validation</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 text-sm">
+<!-- Row 1 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="px-6 py-4 font-mono text-slate-400">#REQ-8821</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-1 ring-white/10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyPkbXfLWOQECYJKwI4EO-9IqBITHF7e8gRq5XpOAeyaSn5aBme2cbw-3F_ONMEgXq4izH0ZPDNdt_QJdIU4-PySSci6cK5iqNK3_PdrH3VT6D7J6J3YkNxFZ5S3N18l56hEbZLoZuClaDFcrmVzsQFdG4EWP4QYYd_xxCFMSjHt2eEuCcFDi0zYAFwCnAAUzYV4I0ZXXskdK56C-bbaPhOUA_e-_Dj2qNzb2yZ98191YRYbGBVQZjpRhxsrqvdarjFDiCZvJ3cdvr");'></div>
+<div class="flex flex-col">
+<span class="text-white font-medium">Sarah Miller</span>
+<span class="text-slate-500 text-xs">ID: 94821</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-semibold text-white">$45.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-300">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                                        PayPal
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                        Valid Source
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-md bg-yellow-500/10 text-yellow-500 text-xs font-medium border border-yellow-500/20">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-xs font-bold transition-colors shadow-lg shadow-primary/20" title="Approve">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                                            Approve
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="px-6 py-4 font-mono text-slate-400">#REQ-8822</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-1 ring-white/10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHZ82xo4DhyFoEACR59dgAkK8-hlKLMZJbq5PuzXCc1ooX7a9pd1CdMsquNxr7wesM813CmHGnOLhXiE-rFNo25WAgcfTANsKxhZ8L9EniJTANK-d_JYddXN1J-E1seNV4hyzeKkPvI7_giCzjhu5hb6u62vldcp3Ovo7Qc7Y3C5-TKy9X6fYJaTRplSRUlnVBR6D_IpWJKYgUohJPJcQ_HxgY3-xwKg17wrvpGI2cDplIve5CNkDd8-or7Kg2KtBcVBY_kfzCG2AL");'></div>
+<div class="flex flex-col">
+<span class="text-white font-medium">James Chen</span>
+<span class="text-slate-500 text-xs">ID: 10293</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-semibold text-white">$12.50</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-300">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+                                        Venmo
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                        Suspicious Redirect
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-md bg-red-500/10 text-red-500 text-xs font-medium border border-red-500/20">Flagged</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-xs font-medium transition-colors">
+                                            Review
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="px-6 py-4 font-mono text-slate-400">#REQ-8823</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-1 ring-white/10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4rV5l9ELxxL0waEVhz9Jl4B3HcMp24wlQQnSINyjIBrxTmoTYrEEb3f3BXv5S0Abx56VcbdmZYpWXTNKy3hXS0vrkFtddcS5uuLYeDkFznozbH0pJgTe2SxB4AfnGuFDZkaqb_CIc9E4WqJUETxv8CF-41YJ4mSwWWo-qUz0o4wNIgp2n_hEgPOJNZIMJevcpUfHF-0ZouD1oThsrjdXslE9lmik_spn7qi53poz2eNDzXMWoL8BoTH8e6yy7BPZqzWOrasjp-eI8");'></div>
+<div class="flex flex-col">
+<span class="text-white font-medium">Marcus Johnson</span>
+<span class="text-slate-500 text-xs">ID: 55920</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-semibold text-white">$100.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-300">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+                                        Bank Transfer
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                        Valid Source
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-md bg-yellow-500/10 text-yellow-500 text-xs font-medium border border-yellow-500/20">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-xs font-bold transition-colors shadow-lg shadow-primary/20" title="Approve">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                                            Approve
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="px-6 py-4 font-mono text-slate-400">#REQ-8824</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-1 ring-white/10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiqtJNsYy7w5M8Y3AoItHsLiX7c7URenSAv-Jzv5Q8Sqo0OU5jCqeKD98CqQafZac_kZvHUb7R-fHx3KGUQEO5vDPxSBm46aevi3cEw3eCjgOl4nIWEtsvNTmlJxDDWhGa4UFveu0qYNOjFvLA67buIViJqfmZh53QfSPzBxCqiDEMR0vtYR7UrM2367vAQFIskAjGXGgliMoX6ykG5Kgf9oWx1fWrv7nUgzb_ebKOxu24nWLGNui0U_s9m0od4MlQWaM2XDh6qUDa");'></div>
+<div class="flex flex-col">
+<span class="text-white font-medium">Emma Watson</span>
+<span class="text-slate-500 text-xs">ID: 33211</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-semibold text-white">$32.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-300">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                                        PayPal
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">link_off</span>
+                                        Broken Link
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-md bg-red-500/10 text-red-500 text-xs font-medium border border-red-500/20">Rejected</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="text-slate-400 hover:text-white text-xs font-medium transition-colors">
+                                            View Details
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="px-6 py-4 font-mono text-slate-400">#REQ-8825</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-1 ring-white/10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5RJB_puTn5p_NuokYOJ9PxRqvulmLwmLxqzJxo847Xtnafi9QbH7Am60yAxvrpFdXVJSQQXt6mDSLOngNVn8PKlcLJ7DJZwg87AXZDrtkZEu8aoNSgYg4nXTOeRvqqo9oYgNql0Xiff-dq9pLOKeq6kF5xCdTMscziqibg9CkROjG_10RsdAFD1apLiDCzNYx-7z769GKuAfNWaEoQKnIzwFwDebN_TDw79dvSemN2rthhsiPluAWfjtTsHDycB5SWFoa7IjADFjI");'></div>
+<div class="flex flex-col">
+<span class="text-white font-medium">David Kim</span>
+<span class="text-slate-500 text-xs">ID: 77843</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-semibold text-white">$55.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-300">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+                                        Venmo
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                        Valid Source
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-md bg-yellow-500/10 text-yellow-500 text-xs font-medium border border-yellow-500/20">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-xs font-bold transition-colors shadow-lg shadow-primary/20" title="Approve">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                                            Approve
+                                        </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="bg-white/5 border-t border-white/10 px-6 py-4 flex items-center justify-between">
+<span class="text-xs text-slate-400">Viewing 5 of 142 results</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded border border-white/10 text-slate-400 text-xs hover:text-white hover:bg-white/5 transition-colors disabled:opacity-50">Previous</button>
+<button class="px-3 py-1 rounded bg-primary text-white text-xs font-medium shadow-md shadow-primary/20">1</button>
+<button class="px-3 py-1 rounded border border-white/10 text-slate-400 text-xs hover:text-white hover:bg-white/5 transition-colors">2</button>
+<button class="px-3 py-1 rounded border border-white/10 text-slate-400 text-xs hover:text-white hover:bg-white/5 transition-colors">3</button>
+<span class="px-1 text-slate-600">...</span>
+<button class="px-3 py-1 rounded border border-white/10 text-slate-400 text-xs hover:text-white hover:bg-white/5 transition-colors">Next</button>
+</div>
+</div>
+</div>
+<footer class="mt-8 text-center text-slate-600 text-xs">
+<p>© 2024 ARS Surveys Admin Panel. All rights reserved.</p>
+</footer>
+</div>
+</main>
+</body></html>

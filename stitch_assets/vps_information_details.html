@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VPS Information Details - ARS Surveys</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4cae4f",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#151d15",
+                        "surface-dark": "#1e291f",
+                        "surface-border": "#2d3e2e",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151d15; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3e2e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4cae4f; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-background-dark border-r border-surface-border flex-col justify-between hidden md:flex shrink-0 h-screen sticky top-0">
+<div class="flex flex-col gap-6 p-6">
+<!-- Logo Area -->
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 flex items-center justify-center rounded-xl size-10 text-primary">
+<span class="material-symbols-outlined">dataset</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">ARS Surveys</h1>
+<p class="text-slate-400 text-xs font-medium">Worker Portal</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">assignment</span>
+<span class="text-sm font-medium">Surveys</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-border text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary">dns</span>
+<span class="text-sm font-medium">VPS Details</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">account_balance_wallet</span>
+<span class="text-sm font-medium">Earnings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="p-6 border-t border-surface-border flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-surface-border hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<div class="flex items-center gap-3 px-3 py-2 mt-2">
+<div class="size-8 rounded-full bg-surface-border bg-cover bg-center border border-slate-600" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAiaTSds8f4vC_WemkS1XghB1vHmTZvRIf2vO5WxhsbdQ_yzE9AF1veNC58AiFo1u5kBG8JEERaZOEAVA3tItRCbK7ROgepnlVpxNlouHSDVXLjK0z10AhIaXpQ5FQ2JblqIrQATCy2geQRaijOi_FV1B-jvApcdgeLcSUxn2a-_g_7rteOa99RlS7zfL3U5W49AzQzG7jVAkZvmDedJkV4W8mb8v_xL-lOm-Fp_aPUENrGQHbrofuG_H-8T-z1mi5kiqqvWLLXZdna');"></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">Alex M.</p>
+<p class="text-xs text-slate-400">ID: #8492</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto">
+<!-- Header Mobile -->
+<header class="md:hidden flex items-center justify-between p-4 bg-background-dark border-b border-surface-border">
+<div class="flex items-center gap-2">
+<div class="bg-primary/20 flex items-center justify-center rounded-lg size-8 text-primary">
+<span class="material-symbols-outlined text-sm">dataset</span>
+</div>
+<span class="font-bold text-white">ARS Surveys</span>
+</div>
+<button class="text-white p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<div class="flex-1 p-6 md:p-10 lg:px-16 max-w-7xl mx-auto w-full">
+<!-- Page Title Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div class="flex flex-col gap-2">
+<h2 class="text-3xl md:text-4xl font-black text-white tracking-tight">VPS Connection Details</h2>
+<p class="text-slate-400 text-base font-normal">Secure connection credentials assigned to Worker ID: <span class="text-slate-200 font-mono">#8492</span></p>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 bg-surface-border/50 rounded-full border border-surface-border backdrop-blur-sm">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+<span class="text-primary font-medium text-sm">System Operational</span>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Connection Card (Glassmorphism) -->
+<div class="lg:col-span-2 flex flex-col">
+<!-- VPS Visualization Card -->
+<div class="relative overflow-hidden rounded-xl border border-surface-border bg-surface-dark shadow-2xl mb-6 group">
+<!-- Abstract Background Mesh -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50"></div>
+<div class="absolute -right-20 -top-20 size-64 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-colors duration-700"></div>
+<div class="relative p-6 md:p-8 flex flex-col h-full justify-between min-h-[240px]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-sm">lock</span>
+                                        Encrypted Connection
+                                    </span>
+<h3 class="text-white text-3xl font-bold mt-2">Assigned VPS IP</h3>
+</div>
+<div class="bg-surface-dark/80 backdrop-blur border border-surface-border p-2 rounded-lg text-slate-400">
+<span class="material-symbols-outlined">router</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-end sm:justify-between gap-4 mt-8">
+<div class="font-mono text-4xl md:text-5xl font-bold text-white tracking-tight tabular-nums">
+                                    192.168.1.45
+                                </div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-background-dark font-bold rounded-lg transition-all active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+<span>Copy IP</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Credentials Form -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 rounded-xl bg-surface-dark border border-surface-border">
+<div class="flex flex-col gap-2">
+<label class="text-slate-300 text-sm font-medium flex justify-between">
+                                Username
+                                <span class="text-xs text-slate-500">Read-only</span>
+</label>
+<div class="relative group">
+<input class="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white font-mono focus:outline-none focus:border-primary/50 transition-colors" readonly="" type="text" value="ars_worker_01"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors p-1" title="Copy Username">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-300 text-sm font-medium flex justify-between">
+                                Password
+                                <span class="text-xs text-slate-500">Tap to reveal</span>
+</label>
+<div class="relative group">
+<input class="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white font-mono focus:outline-none focus:border-primary/50 transition-colors tracking-widest" readonly="" type="password" value="SecurePass123!"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<button class="text-slate-400 hover:text-white transition-colors p-1.5 rounded hover:bg-surface-border" title="Show Password">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+<button class="text-slate-400 hover:text-white transition-colors p-1.5 rounded hover:bg-surface-border" title="Copy Password">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<div class="md:col-span-2 pt-2">
+<div class="p-3 bg-primary/10 border border-primary/20 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">info</span>
+<div class="flex flex-col gap-1">
+<p class="text-white text-sm font-medium">Security Notice</p>
+<p class="text-slate-400 text-xs leading-relaxed">
+                                        These credentials are strictly confidential. Do not share your worker account details with anyone. Connection logs are monitored for security compliance.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Stats & Actions -->
+<div class="flex flex-col gap-6">
+<!-- Status Widget -->
+<div class="rounded-xl bg-surface-dark border border-surface-border p-6 flex flex-col gap-4">
+<h3 class="text-white font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">monitoring</span>
+                            System Status
+                        </h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+<span class="text-slate-400 text-sm">Uptime</span>
+<span class="text-primary font-mono font-medium">99.99%</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+<span class="text-slate-400 text-sm">Latency</span>
+<span class="text-white font-mono font-medium">24ms</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+<span class="text-slate-400 text-sm">Region</span>
+<span class="text-white font-medium flex items-center gap-2">
+<img alt="US Flag" class="h-3 w-auto rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2502X6dSFR9O-0T-MFbmbnZOLIxlMTjkYGegj-6iNJ-E9kqD1tHmPUqXZ36EP1WXFrE8Hnek_oYCaO5CFiKYyRYZ0oCqlQ7odiKgN0PdGF3You8euh6jANlmXI0iUTenbaUugmShTkM_lxIgaapVKhXavNpseXIADq2qdVqCmVJ19QOh90BBTXmbm-qhHxJaKnARP2RPjE0-g-MovOnVek75Bb3GBfVWhAV8h5eoMaNH2483-0uiCuhVdzwu0jmjHeBUUikZxITs5"/>
+                                    US-East
+                                </span>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="rounded-xl bg-surface-dark border border-surface-border p-6 flex flex-col gap-4">
+<h3 class="text-white font-semibold">Quick Actions</h3>
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-surface-border hover:bg-surface-border hover:border-slate-500 text-slate-300 hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">refresh</span>
+                            Refresh Connection
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-surface-border hover:bg-surface-border hover:border-slate-500 text-slate-300 hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">bug_report</span>
+                            Report Issue
+                        </button>
+</div>
+<!-- Help Promo -->
+<div class="mt-auto rounded-xl bg-gradient-to-br from-surface-border to-surface-dark p-6 border border-surface-border text-center">
+<div class="bg-background-dark inline-flex p-3 rounded-full mb-3 border border-surface-border">
+<span class="material-symbols-outlined text-white">support_agent</span>
+</div>
+<h4 class="text-white font-bold mb-1">Need help connecting?</h4>
+<p class="text-slate-400 text-sm mb-4">Check our setup guide for detailed instructions.</p>
+<a class="text-primary hover:text-primary/80 text-sm font-semibold hover:underline" href="#">View Setup Guide</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ARS Surveys - Complete Prototype</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4cae4f",
+                        "primary-dark": "#2e7d32",
+                        "primary-hover": "#3d8b40",
+                        "secondary": "#a0baa1",
+                        "lime-accent": "#9DD666",
+                        "forest": "#1A321A",
+                        "forest-light": "#2d3e2e",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#0F1C0F",
+                        "surface-dark": "#1e291f",
+                        "surface-border": "#2d3e2e",
+                        "glass-border": "rgba(255, 255, 255, 0.08)",
+                        "glass-surface": "rgba(255, 255, 255, 0.03)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem"
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(21, 30, 22, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .glass-nav {
+            background: rgba(15, 28, 15, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #ffffff, #9DD666);
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3e2e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4cae4f;
+        }
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #1A321A 0%, #0f1510 100%);
+        }
+        .glass-panel {
+            background: rgba(30, 42, 30, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(76, 174, 79, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden relative min-h-screen">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const NavigationSidebar = ({ activePage }) => {
+            const navigate = useNavigate();
+            const location = useLocation();
+
+            const isActive = (path) => location.pathname === path;
+
+            return (
+                <aside className="hidden w-72 flex-col sidebar-gradient border-r border-forest-light lg:flex z-20 h-screen sticky top-0">
+                    <div className="flex flex-col h-full p-6">
+                        <div className="flex items-center gap-3 mb-10">
+                            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/20 text-primary">
+                                <span className="material-symbols-outlined text-3xl">token</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <h1 className="text-white text-lg font-bold tracking-tight">ARS Surveys</h1>
+                                <p className="text-secondary text-xs">Fintech Dashboard</p>
+                            </div>
+                        </div>
+                        <nav className="flex-1 flex flex-col gap-2">
+                            <Link to="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive('/dashboard') ? 'bg-primary/20 border border-primary/20 text-white' : 'text-secondary hover:bg-white/5 hover:text-white'}`}>
+                                <span className={`material-symbols-outlined ${isActive('/dashboard') ? 'text-primary' : ''}`}>dashboard</span>
+                                <span className="text-sm font-medium">Dashboard</span>
+                            </Link>
+                            <Link to="/surveys" className="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-white/5 hover:text-white transition-all duration-200">
+                                <span className="material-symbols-outlined">assignment</span>
+                                <span className="text-sm font-medium">Surveys</span>
+                            </Link>
+                            <Link to="/earnings" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive('/earnings') ? 'bg-primary/20 border border-primary/20 text-white' : 'text-secondary hover:bg-white/5 hover:text-white'}`}>
+                                <span className="material-symbols-outlined">account_balance_wallet</span>
+                                <span className="text-sm font-medium">Earnings</span>
+                            </Link>
+                            <Link to="/vps" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive('/vps') ? 'bg-primary/20 border border-primary/20 text-white' : 'text-secondary hover:bg-white/5 hover:text-white'}`}>
+                                <span className="material-symbols-outlined">dns</span>
+                                <span className="text-sm font-medium">VPS Details</span>
+                            </Link>
+                            <Link to="/support" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive('/support') ? 'bg-primary/20 border border-primary/20 text-white' : 'text-secondary hover:bg-white/5 hover:text-white'}`}>
+                                <span className="material-symbols-outlined">help</span>
+                                <span className="text-sm font-medium">Support</span>
+                            </Link>
+                             <Link to="/profile" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive('/profile') ? 'bg-primary/20 border border-primary/20 text-white' : 'text-secondary hover:bg-white/5 hover:text-white'}`}>
+                                <span className="material-symbols-outlined">person</span>
+                                <span className="text-sm font-medium">Profile</span>
+                            </Link>
+                        </nav>
+                        <div className="mt-auto pt-6 border-t border-forest-light flex flex-col gap-4">
+                            <div className="p-4 rounded-xl bg-forest-light/50 border border-forest-light">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-cover bg-center border-2 border-primary/30" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAjXyiMluMGUbSqJWD_GQ8W5V1ad4hdwnyFuJ3-aus4MPDW3Wpnhdc1NSZ-24r2Eg68yKyzoYMjNhLBmUDYxfLq5KMy94BG8nOg0q7X-vxRkFlZIbgjMc64SUbds5aMjSACzfga7Q90uEX8lfcVip-UBhduj6omf3EridOhUgk64wYcicNqhKi-1fDu2iw4RP4r92jgvvuixcdxBO6Qw-4ga3rPuZHZVUcnD0lqnDkuaTEcdHlLF0-3cxUCH5qZ2DhX3C-8m3YimOE0')"}}></div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-white">Alex Morgan</p>
+                                        <p className="text-xs text-secondary">Premium User</p>
+                                    </div>
+                                </div>
+                                <Link to="/" className="w-full py-2 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
+                                    <span className="material-symbols-outlined text-[16px]">logout</span>
+                                     Sign Out
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            );
+        };
+
+        const AdminSidebar = () => {
+             const location = useLocation();
+             const isActive = (path) => location.pathname === path;
+
+             return (
+                <aside className="w-64 flex-shrink-0 border-r border-[#2d3e2e] bg-[#151e16] flex flex-col justify-between p-4 h-screen sticky top-0">
+                    <div className="flex flex-col gap-8">
+                        <div className="flex items-center gap-3 px-2">
+                            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark shadow-lg shadow-primary/20 text-white">
+                                <span className="material-symbols-outlined">analytics</span>
+                            </div>
+                            <div>
+                                <h1 className="text-white text-lg font-bold tracking-tight">ARS Surveys</h1>
+                                <p className="text-[#a0baa1] text-xs font-medium">Admin Portal</p>
+                            </div>
+                        </div>
+                        <nav className="flex-1 flex flex-col gap-1">
+                             <Link to="/admin" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive('/admin') ? 'bg-primary/20 text-primary' : 'text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e]'}`}>
+                                <span className={`material-symbols-outlined ${isActive('/admin') ? 'text-primary' : 'text-[#a0baa1] group-hover:text-white'}`}>dashboard</span>
+                                <span className="text-sm font-medium">Dashboard</span>
+                            </Link>
+                            <Link to="/admin/users" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive('/admin/users') ? 'bg-primary/20 text-primary' : 'text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e]'}`}>
+                                <span className={`material-symbols-outlined ${isActive('/admin/users') ? 'text-primary' : 'text-[#a0baa1] group-hover:text-white'}`}>group</span>
+                                <span className="text-sm font-medium">Users</span>
+                            </Link>
+                            <Link to="/admin/withdrawals" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive('/admin/withdrawals') ? 'bg-primary/20 text-primary' : 'text-[#a0baa1] hover:text-white hover:bg-[#2d3e2e]'}`}>
+                                <span className={`material-symbols-outlined ${isActive('/admin/withdrawals') ? 'text-primary' : 'text-[#a0baa1] group-hover:text-white'}`}>account_balance_wallet</span>
+                                <span className="text-sm font-medium">Withdrawals</span>
+                            </Link>
+                        </nav>
+                    </div>
+                     <Link to="/" className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors group mt-auto">
+                        <span className="material-symbols-outlined group-hover:text-red-400 transition-colors">logout</span>
+                        <span className="font-medium text-sm">Sign Out</span>
+                    </Link>
+                </aside>
+             )
+        }
+
+
+        // --- Screen Components ---
+
+        const HomePage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Ambient Background Effects */}
+                    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+                        <div className="orb w-[500px] h-[500px] bg-primary/20 top-[-10%] left-[-10%]"></div>
+                        <div className="orb w-[600px] h-[600px] bg-lime-accent/10 bottom-[-10%] right-[-10%]"></div>
+                        <div className="orb w-[300px] h-[300px] bg-primary/10 top-[40%] left-[30%]"></div>
+                    </div>
+                    {/* Navigation */}
+                    <nav className="fixed top-0 left-0 right-0 z-50 glass-nav h-16 transition-all duration-300">
+                        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary to-lime-accent/80 text-white shadow-lg shadow-primary/20">
+                                    <span className="material-symbols-outlined text-xl leading-none">analytics</span>
+                                </div>
+                                <span className="text-white font-bold text-lg tracking-tight">ARS Surveys</span>
+                            </div>
+                            <div className="hidden md:flex items-center gap-8">
+                                <a className="text-sm font-medium text-slate-300 hover:text-white transition-colors" href="#features">Features</a>
+                                <a className="text-sm font-medium text-slate-300 hover:text-white transition-colors" href="#pricing">Pricing</a>
+                                <Link to="/admin" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Admin Demo</Link>
+                            </div>
+                            <Link to="/dashboard" className="bg-white/10 hover:bg-white/20 text-white text-sm font-semibold py-2 px-5 rounded-lg transition-all border border-white/5 backdrop-blur-sm">
+                                Login
+                            </Link>
+                        </div>
+                    </nav>
+                    {/* Main Content */}
+                    <main className="relative z-10 flex-grow pt-24 pb-20 px-4 md:px-6">
+                        <div className="max-w-7xl mx-auto flex flex-col gap-24">
+                            {/* Hero Section */}
+                            <section className="flex flex-col items-center justify-center text-center mt-12 md:mt-20">
+                                <div className="glass-card p-8 md:p-12 rounded-2xl max-w-4xl w-full relative overflow-hidden group">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+                                    <div className="flex flex-col items-center gap-6 relative z-10">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold tracking-wide uppercase mb-2">
+                                            <span className="w-2 h-2 rounded-full bg-lime-accent animate-pulse"></span>
+                                            New Features Live
+                                        </div>
+                                        <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white drop-shadow-sm">
+                                            Unlock Your <br />
+                                            <span className="text-gradient">Earning Potential</span>
+                                        </h1>
+                                        <p className="text-slate-400 text-lg md:text-xl max-w-2xl font-light leading-relaxed">
+                                            Join the premier survey platform designed for modern earners. Instant payouts, premium tasks, and secure transactions wrapped in a sleek experience.
+                                        </p>
+                                        <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center">
+                                            <Link to="/dashboard" className="flex items-center justify-center h-12 px-8 rounded-lg bg-primary hover:bg-primary/90 text-background-dark font-bold transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(76,174,79,0.3)]">
+                                                Start Now
+                                            </Link>
+                                            <button className="h-12 px-8 rounded-lg border border-white/20 hover:bg-white/5 text-white font-medium transition-all backdrop-blur-sm flex items-center justify-center gap-2 group-hover:border-primary/50">
+                                                View Packages
+                                                <span className="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                    <footer className="relative z-10 glass-nav border-t border-white/5 mt-auto">
+                        <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+                             <p className="text-slate-500 text-sm max-w-xs text-center md:text-left">
+                                Empowering users worldwide to monetize their opinions securely and efficiently.
+                            </p>
+                            <div className="text-center pb-6 text-slate-600 text-xs">
+                                © 2024 ARS Surveys. All rights reserved.
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const DashboardPage = () => {
+            return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <NavigationSidebar activePage="/dashboard" />
+                    <main className="flex-1 flex flex-col h-full relative overflow-y-auto bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center">
+                        <div className="absolute inset-0 bg-background-dark/90 pointer-events-none z-0"></div>
+                        <div className="relative z-10 flex flex-col flex-1 p-6 md:p-10 max-w-7xl mx-auto w-full">
+                            <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                                <div>
+                                    <h2 className="text-3xl font-bold text-white tracking-tight">Welcome back, Alex</h2>
+                                    <p className="text-secondary mt-1">Here is your financial overview for today.</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="relative">
+                                        <span className="absolute top-2.5 left-3 text-secondary material-symbols-outlined text-[20px]">search</span>
+                                        <input className="bg-forest-light/50 border border-forest-light text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-64 pl-10 p-2.5 placeholder-secondary/70" placeholder="Search surveys..." type="text" />
+                                    </div>
+                                    <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-forest-light/50 border border-forest-light text-white hover:bg-forest-light transition-colors relative">
+                                        <span className="material-symbols-outlined">notifications</span>
+                                        <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+                                    </button>
+                                </div>
+                            </header>
+
+                             {/* Key Metrics Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <div className="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                                    <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-500"></div>
+                                    <div className="relative z-10">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="p-2 bg-primary/20 rounded-lg text-primary">
+                                                <span className="material-symbols-outlined">attach_money</span>
+                                            </div>
+                                            <span className="flex items-center text-primary text-xs font-bold bg-primary/10 px-2 py-1 rounded-full border border-primary/20">
+                                                <span className="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                                                +12%
+                                            </span>
+                                        </div>
+                                        <p className="text-secondary text-sm font-medium">Total Earnings (USD)</p>
+                                        <h3 className="text-white text-3xl font-bold mt-1 tracking-tight">$1,240.50</h3>
+                                        <p className="text-xs text-secondary/70 mt-2">vs $1,107.50 last month</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="glass-card rounded-2xl p-6 relative overflow-hidden">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-yellow-500/20 rounded-lg text-yellow-500">
+                                            <span className="material-symbols-outlined">pending</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-secondary text-sm font-medium">Pending Withdrawal</p>
+                                    <h3 className="text-white text-3xl font-bold mt-1 tracking-tight">$45.00</h3>
+                                    <div className="mt-4 w-full bg-forest-light/50 rounded-full h-1.5">
+                                        <div className="bg-yellow-500 h-1.5 rounded-full" style={{width: "65%"}}></div>
+                                    </div>
+                                    <p className="text-xs text-secondary/70 mt-2">Estimated arrival: 24h</p>
+                                </div>
+
+                                <div className="glass-card rounded-2xl p-6 relative overflow-hidden">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400">
+                                            <span className="material-symbols-outlined">dns</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="relative flex h-2.5 w-2.5">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                                            </span>
+                                            <span className="text-primary text-xs font-bold">Active</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-secondary text-sm font-medium">VPS Status</p>
+                                    <h3 className="text-white text-3xl font-bold mt-1 tracking-tight">99.9%</h3>
+                                    <p className="text-xs text-secondary/70 mt-2">Uptime verified</p>
+                                </div>
+                            </div>
+
+                             {/* Chart & Table Area */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
+                                <div className="lg:col-span-2 glass-card rounded-2xl p-6 flex flex-col">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <div>
+                                            <h3 className="text-white text-lg font-bold">Earnings Growth</h3>
+                                            <p className="text-secondary text-sm">Revenue over the last 30 days</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 w-full h-64 min-h-[250px] relative">
+                                         {/* Mock Chart SVG */}
+                                        <svg className="w-full h-full overflow-visible" viewBox="0 0 800 300">
+                                            <defs>
+                                                <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                                                    <stop offset="0%" stopColor="#4cae4f" stopOpacity="0.2"></stop>
+                                                    <stop offset="100%" stopColor="#4cae4f" stopOpacity="0"></stop>
+                                                </linearGradient>
+                                            </defs>
+                                            <line stroke="#2d3e2e" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="800" y1="0" y2="0"></line>
+                                            <line stroke="#2d3e2e" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="800" y1="75" y2="75"></line>
+                                            <line stroke="#2d3e2e" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="800" y1="150" y2="150"></line>
+                                            <line stroke="#2d3e2e" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="800" y1="225" y2="225"></line>
+                                            <line stroke="#2d3e2e" strokeWidth="1" x1="0" x2="800" y1="300" y2="300"></line>
+                                            <path d="M0,250 C100,240 150,150 250,180 C350,210 400,100 500,120 C600,140 650,50 800,80 L800,300 L0,300 Z" fill="url(#chartGradient)"></path>
+                                            <path d="M0,250 C100,240 150,150 250,180 C350,210 400,100 500,120 C600,140 650,50 800,80" fill="none" stroke="#4cae4f" strokeLinecap="round" strokeWidth="3"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div className="glass-card rounded-2xl p-0 flex flex-col h-full">
+                                    <div className="p-6 pb-4 border-b border-forest-light">
+                                        <h3 className="text-white text-lg font-bold">Recent Activity</h3>
+                                        <p className="text-secondary text-sm">Latest transactions & logs</p>
+                                    </div>
+                                    <div className="flex-1 overflow-y-auto p-2">
+                                        <div className="flex items-center gap-3 p-3 hover:bg-forest-light/30 rounded-lg transition-colors cursor-pointer group">
+                                            <div className="w-10 h-10 rounded-full bg-forest-light flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined text-[20px]">check_circle</span>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="text-white text-sm font-medium">Survey #4402 Complete</p>
+                                                <p className="text-secondary text-xs">Tech Trends 2024</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-primary text-sm font-bold">+$12.50</p>
+                                                <p className="text-secondary text-xs">2m ago</p>
+                                            </div>
+                                        </div>
+                                         <div className="flex items-center gap-3 p-3 hover:bg-forest-light/30 rounded-lg transition-colors cursor-pointer group">
+                                            <div className="w-10 h-10 rounded-full bg-forest-light flex items-center justify-center text-yellow-500 group-hover:bg-yellow-500 group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined text-[20px]">hourglass_top</span>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="text-white text-sm font-medium">Withdrawal Request</p>
+                                                <p className="text-secondary text-xs">PayPal</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-white text-sm font-bold">-$45.00</p>
+                                                <p className="text-secondary text-xs">1h ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const ProfilePage = () => {
+             return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <NavigationSidebar activePage="/profile" />
+                    <main className="flex-1 flex flex-col h-full overflow-y-auto p-8 max-w-7xl mx-auto w-full">
+                         <div className="flex flex-col gap-6 mb-8">
+                            <div className="flex items-center gap-2 text-sm text-slate-400">
+                                <Link to="/dashboard" className="hover:text-primary transition-colors">Home</Link>
+                                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                                <span className="text-slate-100 font-medium">Profile Settings</span>
+                            </div>
+                            <h1 className="text-3xl font-bold text-slate-100 tracking-tight">Personal Details</h1>
+                         </div>
+
+                         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                             <div className="xl:col-span-1 space-y-6">
+                                <div className="glass-panel rounded-xl p-6 flex flex-col items-center text-center relative overflow-hidden">
+                                     <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-primary/20 to-transparent"></div>
+                                     <div className="relative mt-4">
+                                        <div className="size-32 rounded-full p-1 bg-gradient-to-br from-primary to-surface-dark">
+                                            <div className="w-full h-full rounded-full bg-cover bg-center" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBEFT9UZq-HMoyoGCK84dGarGdXbKAdcEL5TRglpq8EwU32JZeCzuprshu-2rRJU3FRvSpg1Fy3PQobnOwhC1WteePL6EnFinozPDBcLeoVO2dixT8pDOu1aIIAh-lyS2jcWwiJN_7nzFKQMm2oLC8lRvNAOSNRDJPjWjz34mKGioJ9wAJdjZp4hY8BiZgCSU3hVHT4HKnaOB7egSccog4Q5BaXdZJFWRMTqCKIk21aOzpsh3uvwgKldrw_PKdvcI6BLeG5AC4B8EKe")'}}></div>
+                                        </div>
+                                     </div>
+                                     <div className="mt-4">
+                                        <h2 className="text-xl font-bold text-slate-100">John Doe</h2>
+                                        <p className="text-primary font-medium text-sm">Premium Member</p>
+                                     </div>
+                                </div>
+                             </div>
+                             <div className="xl:col-span-2">
+                                <div className="glass-panel rounded-xl p-6 md:p-8">
+                                    <form className="flex flex-col gap-8">
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-2 pb-2 border-b border-border-dark/50">
+                                                <span className="material-symbols-outlined text-primary">badge</span>
+                                                <h3 className="text-lg font-semibold text-slate-100">Basic Information</h3>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-medium text-slate-300">Full Name</label>
+                                                    <input className="w-full rounded-lg px-4 py-2.5 text-sm bg-surface-dark border border-forest-light text-white focus:ring-1 focus:ring-primary focus:outline-none" defaultValue="John Doe" type="text" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-medium text-slate-300">Phone Number</label>
+                                                    <input className="w-full rounded-lg px-4 py-2.5 text-sm bg-surface-dark border border-forest-light text-white focus:ring-1 focus:ring-primary focus:outline-none" defaultValue="+1 (555) 000-0000" type="tel" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="pt-6 border-t border-forest-light flex items-center justify-end gap-4">
+                                            <button className="px-6 py-2.5 rounded-lg border border-forest-light text-slate-300 font-medium text-sm hover:bg-surface-dark hover:text-white transition-colors" type="button">Cancel</button>
+                                            <button className="px-6 py-2.5 rounded-lg bg-primary text-white font-medium text-sm hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all flex items-center gap-2" type="button">
+                                                <span className="material-symbols-outlined text-[18px]">save</span> Save Changes
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                             </div>
+                         </div>
+                    </main>
+                </div>
+            )
+        }
+
+        const VPSPage = () => {
+            return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <NavigationSidebar activePage="/vps" />
+                    <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 lg:px-16 max-w-7xl mx-auto w-full">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                            <div className="flex flex-col gap-2">
+                                <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">VPS Connection Details</h2>
+                                <p className="text-slate-400 text-base font-normal">Secure connection credentials assigned to Worker ID: <span className="text-slate-200 font-mono">#8492</span></p>
+                            </div>
+                            <div className="flex items-center gap-3 px-4 py-2 bg-surface-border/50 rounded-full border border-surface-border backdrop-blur-sm">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                                </span>
+                                <span className="text-primary font-medium text-sm">System Operational</span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2 flex flex-col">
+                                <div className="relative overflow-hidden rounded-xl border border-surface-border bg-surface-dark shadow-2xl mb-6 group">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50"></div>
+                                    <div className="relative p-6 md:p-8 flex flex-col h-full justify-between min-h-[240px]">
+                                        <div className="flex justify-between items-start">
+                                            <div className="flex flex-col gap-1">
+                                                <span className="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-wider font-bold">
+                                                    <span className="material-symbols-outlined text-sm">lock</span>
+                                                    Encrypted Connection
+                                                </span>
+                                                <h3 className="text-white text-3xl font-bold mt-2">Assigned VPS IP</h3>
+                                            </div>
+                                            <div className="bg-surface-dark/80 backdrop-blur border border-surface-border p-2 rounded-lg text-slate-400">
+                                                <span className="material-symbols-outlined">router</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col sm:flex-row items-end sm:justify-between gap-4 mt-8">
+                                            <div className="font-mono text-4xl md:text-5xl font-bold text-white tracking-tight tabular-nums">
+                                                192.168.1.45
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 rounded-xl bg-surface-dark border border-surface-border">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-slate-300 text-sm font-medium flex justify-between">Username <span className="text-xs text-slate-500">Read-only</span></label>
+                                        <input className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white font-mono focus:outline-none focus:border-primary/50 transition-colors" readOnly type="text" value="ars_worker_01"/>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-slate-300 text-sm font-medium flex justify-between">Password <span className="text-xs text-slate-500">Encrypted</span></label>
+                                        <input className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white font-mono focus:outline-none focus:border-primary/50 transition-colors tracking-widest" readOnly type="password" value="SecurePass123!"/>
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="flex flex-col gap-6">
+                                <div className="rounded-xl bg-surface-dark border border-surface-border p-6 flex flex-col gap-4">
+                                    <h3 className="text-white font-semibold flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-slate-400">monitoring</span> System Status
+                                    </h3>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+                                            <span className="text-slate-400 text-sm">Uptime</span>
+                                            <span className="text-primary font-mono font-medium">99.99%</span>
+                                        </div>
+                                        <div className="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+                                            <span className="text-slate-400 text-sm">Latency</span>
+                                            <span className="text-white font-mono font-medium">24ms</span>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                    </main>
+                </div>
+            )
+        }
+
+        const EarningsPage = () => {
+             return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <NavigationSidebar activePage="/earnings" />
+                    <main className="flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-8 lg:p-10 relative">
+                        <div className="max-w-6xl mx-auto w-full flex flex-col gap-8">
+                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                                <div className="flex flex-col gap-1">
+                                    <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Withdrawal Management</h2>
+                                    <p className="text-[#a0baa1] text-base">Manage your earnings and request payouts seamlessly.</p>
+                                </div>
+                                <div className="flex items-center gap-4 bg-surface-dark border border-white/5 px-6 py-4 rounded-xl shadow-lg">
+                                    <div className="p-3 bg-primary/20 rounded-full text-primary">
+                                        <span className="material-symbols-outlined text-3xl">savings</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-[#a0baa1] text-xs uppercase tracking-wider font-semibold">Available Balance</p>
+                                        <div className="flex items-baseline gap-2">
+                                            <span className="text-3xl font-bold text-white tracking-tight">$1,240.50</span>
+                                            <span className="text-primary text-sm font-medium flex items-center">
+                                                <span className="material-symbols-outlined text-base">trending_up</span> 12.5%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section className="w-full">
+                                <div className="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+                                    <div className="relative z-10 flex flex-col gap-6">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <span className="p-2 bg-primary/10 rounded-lg text-primary"><span className="material-symbols-outlined">payments</span></span>
+                                            <h3 className="text-xl font-bold text-white">Request New Withdrawal</h3>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                                            <div className="md:col-span-4 flex flex-col gap-2">
+                                                <label className="text-sm font-medium text-[#a0baa1]">USD Amount</label>
+                                                <div className="relative">
+                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <span className="text-white/40 material-symbols-outlined text-[20px]">attach_money</span>
+                                                    </div>
+                                                    <input className="block w-full rounded-lg border-0 bg-white/5 py-3 pl-10 pr-4 text-white ring-1 ring-inset ring-white/10 placeholder:text-white/20 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-all" placeholder="0.00" type="number"/>
+                                                </div>
+                                            </div>
+                                            <div className="md:col-span-8 flex flex-col gap-2">
+                                                <label className="text-sm font-medium text-[#a0baa1]">Destination Link / Wallet Address</label>
+                                                <div className="relative flex gap-4">
+                                                    <div className="relative flex-1">
+                                                        <input className="block w-full rounded-lg border-0 bg-white/5 py-3 pl-4 pr-4 text-white ring-1 ring-inset ring-white/10 placeholder:text-white/20 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-all" placeholder="e.g., paypal.me/username" type="text"/>
+                                                    </div>
+                                                    <button className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-lg font-semibold shadow-lg shadow-primary/20 transition-all flex items-center gap-2 whitespace-nowrap">
+                                                        <span>Submit Request</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                </div>
+            )
+        }
+        
+         const SupportPage = () => {
+             return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <NavigationSidebar activePage="/support" />
+                    <main className="flex-1 flex flex-col h-full overflow-y-auto p-4 md:p-8 relative">
+                        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+                            <div className="mb-8">
+                                <div className="flex flex-col gap-2">
+                                    <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Support & Help Center</h1>
+                                    <p className="text-slate-500 dark:text-[#a0baa1] text-lg max-w-2xl">
+                                        Need assistance? Submit a ticket below or track the status of your existing requests.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                                <div className="lg:col-span-7 xl:col-span-8">
+                                    <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-[#2d3e2e] bg-white dark:bg-[#1e2820]/60 backdrop-blur-xl shadow-lg p-6 md:p-8">
+                                        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">New Support Ticket</h2>
+                                        <form className="space-y-6">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
+                                                    <input className="w-full h-12 px-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white" placeholder="Brief summary" type="text"/>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Category</label>
+                                                    <select className="w-full h-12 px-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white">
+                                                        <option>Technical Issue</option>
+                                                        <option>Billing</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Description</label>
+                                                <textarea className="w-full min-h-[160px] p-4 rounded-lg bg-slate-50 dark:bg-[#151e16] border border-slate-200 dark:border-[#2d3e2e] text-slate-900 dark:text-white" placeholder="Describe the issue..."></textarea>
+                                            </div>
+                                            <div className="pt-2 flex justify-end">
+                                                <button className="inline-flex items-center justify-center h-12 px-8 font-semibold text-white transition-all duration-200 rounded-lg bg-primary hover:bg-primary-dark" type="button">
+                                                    Submit Ticket
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            )
+        }
+
+
+        const AdminDashboard = () => {
+            return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <AdminSidebar />
+                    <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+                         <header className="h-16 flex items-center justify-between px-8 border-b border-[#2d3e2e] bg-[#151e16] flex-shrink-0 z-10">
+                            <div className="flex items-center gap-4">
+                                <h2 className="text-xl font-bold text-white tracking-tight">Admin Dashboard</h2>
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#2d3e2e] text-[#a0baa1] uppercase tracking-wider border border-[#a0baa1]/20">v2.4.0</span>
+                            </div>
+                        </header>
+                         <div className="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-[#151e16] to-[#0f1510]">
+                            <div className="max-w-[1400px] mx-auto flex flex-col gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                     <div className="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+                                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <span className="material-symbols-outlined text-6xl text-white">groups</span>
+                                        </div>
+                                        <div className="flex flex-col gap-1 relative z-10">
+                                            <p className="text-[#a0baa1] text-sm font-medium">Total Users</p>
+                                            <div className="flex items-end gap-3 mt-1">
+                                                <h3 className="text-3xl font-bold text-white tracking-tight">12,405</h3>
+                                                <span className="flex items-center text-xs font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded mb-1">+5.2%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div className="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+                                        <div className="flex flex-col gap-1 relative z-10">
+                                            <p className="text-[#a0baa1] text-sm font-medium">Total USD Processed</p>
+                                            <div className="flex items-end gap-3 mt-1">
+                                                <h3 className="text-3xl font-bold text-white tracking-tight">$4.2M</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </main>
+                </div>
+            )
+        }
+
+        const AdminUsers = () => {
+             return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <AdminSidebar />
+                    <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+                         <header className="h-16 flex items-center justify-between px-8 border-b border-[#2d3e2e] bg-[#151e16] flex-shrink-0 z-10">
+                            <h2 className="text-xl font-bold text-white tracking-tight">User Management</h2>
+                        </header>
+                         <div className="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-[#151e16] to-[#0f1510]">
+                            <div className="max-w-[1400px] mx-auto flex flex-col gap-8">
+                                 <div className="bg-[#1e2a20] border border-[#2d3e2e] rounded-xl flex flex-col shadow-xl shadow-black/20">
+                                    <div className="p-5 border-b border-[#2d3e2e]">
+                                        <h3 className="text-white text-lg font-bold">User Directory</h3>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr className="bg-[#263528] text-[#a0baa1] text-xs uppercase tracking-wider font-semibold border-b border-[#2d3e2e]">
+                                                    <th className="px-6 py-4">User Details</th>
+                                                    <th className="px-6 py-4">Role</th>
+                                                    <th className="px-6 py-4 text-right">Balance</th>
+                                                    <th className="px-6 py-4 text-center">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-[#2d3e2e] text-sm text-white">
+                                                <tr>
+                                                    <td className="px-6 py-4">John Doe</td>
+                                                    <td className="px-6 py-4">User</td>
+                                                    <td className="px-6 py-4 text-right">$2,450.00</td>
+                                                    <td className="px-6 py-4 text-center"><span className="text-primary">Active</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="px-6 py-4">Sarah Smith</td>
+                                                    <td className="px-6 py-4">Admin</td>
+                                                    <td className="px-6 py-4 text-right">$12,890.50</td>
+                                                    <td className="px-6 py-4 text-center"><span className="text-primary">Active</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                 </div>
+                            </div>
+                         </div>
+                    </main>
+                </div>
+            )
+        }
+        
+        const AdminWithdrawals = () => {
+             return (
+                <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+                    <AdminSidebar />
+                    <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+                         <header className="h-16 flex items-center justify-between px-8 border-b border-[#2d3e2e] bg-[#151e16] flex-shrink-0 z-10">
+                            <h2 className="text-xl font-bold text-white tracking-tight">Withdrawal Requests</h2>
+                        </header>
+                         <div className="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-[#151e16] to-[#0f1510]">
+                            <div className="max-w-[1400px] mx-auto flex flex-col gap-8">
+                                <div className="glass-panel rounded-xl overflow-hidden flex flex-col shadow-2xl">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="bg-white/5 text-xs uppercase tracking-wider text-slate-400 font-semibold border-b border-white/10">
+                                                <th className="px-6 py-4">Request ID</th>
+                                                <th className="px-6 py-4">User</th>
+                                                <th className="px-6 py-4">Amount</th>
+                                                <th className="px-6 py-4">Status</th>
+                                                <th className="px-6 py-4 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-white/5 text-sm text-white">
+                                            <tr>
+                                                <td className="px-6 py-4">#REQ-8821</td>
+                                                <td className="px-6 py-4">Sarah Miller</td>
+                                                <td className="px-6 py-4">$45.00</td>
+                                                <td className="px-6 py-4 text-yellow-500">Pending</td>
+                                                <td className="px-6 py-4 text-right"><button className="text-primary">Approve</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="px-6 py-4">#REQ-8822</td>
+                                                <td className="px-6 py-4">James Chen</td>
+                                                <td className="px-6 py-4">$12.50</td>
+                                                <td className="px-6 py-4 text-red-500">Flagged</td>
+                                                <td className="px-6 py-4 text-right"><button className="text-slate-400">Review</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                         </div>
+                    </main>
+                </div>
+            )
+        }
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/vps" element={<VPSPage />} />
+                        <Route path="/earnings" element={<EarningsPage />} />
+                        <Route path="/surveys" element={<DashboardPage />} /> {/* Placeholder reuse */}
+                        <Route path="/support" element={<SupportPage />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/admin/users" element={<AdminUsers />} />
+                        <Route path="/admin/withdrawals" element={<AdminWithdrawals />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
